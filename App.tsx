@@ -1,24 +1,17 @@
-import 'react-native-gesture-handler';
-import { StatusBar } from 'expo-status-bar';
-import { StyleSheet, Text, View } from 'react-native';
+import "react-native-gesture-handler";
+import { NavigationContainer } from "@react-navigation/native";
+import { createStackNavigator } from "@react-navigation/stack";
 
-export default function App() {
-  return (
-    <View style={styles.container}>
-      <Text>teste 3</Text>
-      <Text>teste 3</Text>
-      <Text>teste 3</Text>
-      <Text>teste 3</Text>
-      <StatusBar style="auto" />
-    </View>
-  );
-}
+// Telas do seu aplicativo
+import Home from "./src/screens/Home";
+import TirarFoto from "./src/screens/TirarFoto";
+import ListarMrz from "./src/screens/ListarMrz";
+import LerMrz from "./src/screens/LerMrz";
 
-const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-    backgroundColor: '#fff',
-    alignItems: 'center',
-    justifyContent: 'center',
-  },
-});
+import Router from "./src/routes/Router";
+
+const App = () => {
+  return <Router />;
+};
+
+export default App;
