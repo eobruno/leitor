@@ -1,4 +1,4 @@
-import React, { useState, useEffect, useRef } from 'react';
+import React, { useState, useEffect, useRef } from "react";
 import {
   StyleSheet,
   View,
@@ -23,11 +23,12 @@ import {
   FontAwesome,
 } from "@expo/vector-icons";
 import Orientation from "react-native-orientation-locker";
+import { runOnJS } from "react-native-reanimated";
 
 import { BACKGROUND_COLOR } from "./styles";
-import { MRZList, MrzObject } from '../types/types';
-import Constantes from '../util/Constantes';
-import { Formatar } from '../util/formatar';
+import { MRZList, MrzObject } from "../types/types";
+import Constantes from "../util/Constantes";
+import { Formatar } from "../util/formatar";
 
 const initialMRZList: MRZList = {
   documentType: [{ value: "", matchCount: 0 }],
@@ -64,8 +65,7 @@ const LerMrz = ({ navigation }) => {
   const [salvo, setSalvo] = useState(false);
 
   const camera = useRef<Camera>(null);
-  const device = useCameraDevice('back');
-
+  const device = useCameraDevice("back");
 
   useEffect(() => {
     const startAnimation = () => {
@@ -127,6 +127,10 @@ const LerMrz = ({ navigation }) => {
     getPermission();
   }, []);
 
+  const frameProcessor = useFrameProcessor((frame) => {
+    "worklet";
+    console.log(`Frame: ${frame.width}x${frame.height} (${frame.pixelFormat})`);
+  }, []);
 
   return (
     <View style={styles.container}>
@@ -139,6 +143,7 @@ const LerMrz = ({ navigation }) => {
             device={device}
             isActive={cameraStatus}
             torch={isFlashOn ? "on" : "off"}
+            frameProcessor={frameProcessor}
           />
           <View style={styles.infoContainer}>
             <View style={styles.infoContent}>
@@ -251,7 +256,7 @@ const LerMrz = ({ navigation }) => {
                       source={{ uri: `file://${fotoRecortada}` }}
                     />
                   </View>
-                ) }
+                )}
               </View>
               <View style={styles.linha}>
                 <View style={styles.coluna}>
@@ -410,7 +415,7 @@ const LerMrz = ({ navigation }) => {
                     alignItems: "center",
                     justifyContent: "center",
                   }}
-                  onPress={() => console.log('Imprementar Depois')}
+                  onPress={() => console.log("Imprementar Depois")}
                 >
                   <FontAwesome
                     name="save"
@@ -545,11 +550,11 @@ const styles = StyleSheet.create({
   salvo: {
     display: "flex",
     flexDirection: "row",
-    justifyContent:"center",
+    justifyContent: "center",
     alignItems: "center",
     width: "97%",
     padding: 10,
-    marginTop:10
+    marginTop: 10,
   },
   coluna: {
     flex: 1,
